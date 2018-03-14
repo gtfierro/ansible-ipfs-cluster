@@ -1,0 +1,12 @@
+- name: reload systemd
+  become: yes
+  systemd: daemon_reload=yes
+  notify: restart wavecmd
+
+- name: restart wavecmd
+  become: yes
+  service:
+    name: wavecmd
+    enabled: yes
+    state: restarted
+    use: systemd

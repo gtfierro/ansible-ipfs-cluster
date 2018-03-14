@@ -1,0 +1,12 @@
+[Unit]
+Description=Wavecmd
+After=network.target
+
+[Service]
+ExecStart=/usr/local/go/bin/cmd pinservice
+Restart=on-failure
+User=ipfs
+
+[Install]
+WantedBy=multi-user.target
+

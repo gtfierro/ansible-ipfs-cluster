@@ -1,0 +1,36 @@
+---
+- name: load cmd
+  become: yes
+  copy:
+    src: cmd
+    dest: /usr/local/go/bin/cmd
+    mode: 744
+    owner: ipfs
+
+- name: install cmd systemd
+  become: yes
+  copy:
+    src: wavecmd.service
+    dest: /etc/systemd/system/wavecmd.service
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - reload systemd
+    - restart wavecmd
+
+- name: reload systemd
+  become: yes
+  systemd:
+    daemon_reload: yes
+    name: wavecmd
+    enabled: yes
+    state: restarted
+
+- name: print config
+  command: ipfs id
+  become: yes
+  become_user: ipfs
+  register: out
+
+- debug: var=out.stdout_lines
