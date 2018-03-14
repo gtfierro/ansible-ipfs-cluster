@@ -1,6 +1,6 @@
-all: ipfs ipfs-cluster
-ipfs:
-	ansible-playbook -i inventory.yml ipfs.yml
-ipfs-cluster:
-	ansible-playbook -i inventory.yml ipfs-cluster.yml
-.PHONY = all ipfs ipfs-cluster
+all: ipfs
+ipfs: ipfscmd
+	ansible-playbook -i inventory.yml -u ubuntu --private-key=<ssh key for ec2 or whatever> ipfs.yml
+ipfscmd:
+	go build -o roles/cmd/files/cmd github.com/immesys/wave/storage/ipfs/cmd
+.PHONY = all ipfs

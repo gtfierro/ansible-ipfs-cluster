@@ -1,3 +1,5 @@
 - hosts: ipfs
   roles:
     - ipfs
+    - go
+    - cmd
